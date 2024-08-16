@@ -1,9 +1,41 @@
-[gd_scene load_steps=2 format=3 uid="uid://bh122aots0e2n"]
+[gd_scene load_steps=5 format=3 uid="uid://bh122aots0e2n"]
 
 [ext_resource type="Texture2D" uid="uid://vj1l05ow482x" path="res://icon.svg" id="1_vy7ov"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e2wkj"]
+size = Vector2(130, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_06ix1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_vy7ov")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4qeki"]
+size = Vector2(1210, 128)
+
 [node name="Node2D" type="Node2D"]
 
-[node name="Sprite2D" type="Player" parent="."]
-position = Vector2(580, 313)
+[node name="CharacterBody2D" type="Player" parent="."]
+position = Vector2(561, 319)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_e2wkj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+sprite_frames = SubResource("SpriteFrames_06ix1")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(560, 590)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_4qeki")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+scale = Vector2(9.4, 1)
 texture = ExtResource("1_vy7ov")
