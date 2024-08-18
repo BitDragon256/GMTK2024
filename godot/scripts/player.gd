@@ -1,6 +1,9 @@
 extends CharacterBody2D
 
 
+const DRAWING_WIDTH = 4
+
+
 const SPEED = 400.0
 const JUMP_ACCELERATION = -50.0
 const JUMP_START_ACCELERATION = -400.0
@@ -106,7 +109,6 @@ func handle_movement(delta: float):
 var points = []
 var done_drawing = false
 var cut_drawing = false
-var segments = []
 var image_segments = []
 @onready var draw_image_root = $DrawObject/ImageRoot
 @onready var draw_object = $DrawObject
@@ -136,14 +138,16 @@ func handle_drawing():
 
 		if use_horizontal:
 			draw_object.position.x -= delta.x
-			for seg in segments:
-				seg.position.x += delta.x
+			for seg in segment_colliders:
+				for s in seg:
+					s[4].x += delta.x
 			for seg in image_segments:
 				seg.position.x += delta.x
 		if use_vertical:
 			draw_object.position.y -= delta.y
-			for seg in segments:
-				seg.position.y += delta.y
+			for seg in segment_colliders:
+				for s in seg:
+					s[4].y += delta.y
 			for seg in image_segments:
 				seg.position.y += delta.y
 
@@ -155,8 +159,7 @@ func handle_drawing():
 			var point = get_viewport().get_mouse_position() - position + _camera.position + _camera.offset - draw_object.position
 
 			if points == [] || cut_drawing:
-				segments.push_back(StaticBody2D.new())
-				draw_object.add_child(segments.back())
+				segment_colliders.push_back([])
 				image_segments.push_back(Node2D.new())
 				draw_image_root.add_child(image_segments.back())
 
@@ -164,25 +167,25 @@ func handle_drawing():
 				# add segments
 				var last = points.back()
 				var seg = Sprite2D.new()
-				seg.texture = load("res://assets//white square.png")
+				seg.texture = load("res://assets//black square.png")
 				seg.position = (point + points.back()) / 2.0
-				seg.scale.x = max(((point - last).length() + 5.0), 10.0) / 64.0
-				seg.scale.y = 10.0 / 64.0
+				seg.scale.x = max(((point - last).length() + DRAWING_WIDTH / 2.0), DRAWING_WIDTH) / 64.0
+				seg.scale.y = DRAWING_WIDTH / 64.0
 				seg.rotate(atan2((point - last).y, (point - last).x))
 				image_segments.back().add_child(seg)
 
 				# add connector pieces
 				var con = Sprite2D.new()
-				con.texture = load("res://assets/white circle.png")
-				con.scale.x = 10.0 / 64.0
-				con.scale.y = 10.0 / 64.0
+				con.texture = load("res://assets/black circle.png")
+				con.scale.x = DRAWING_WIDTH / 64.0
+				con.scale.y = DRAWING_WIDTH / 64.0
 				con.position = point
 				image_segments.back().add_child(con)
 
 				# add collider
 				seg = CollisionPolygon2D.new()
-				var width = 10.0
-				var height = (point - last).length() + 5.0
+				var width = DRAWING_WIDTH
+				var height = (point - last).length() + DRAWING_WIDTH / 2.0
 				var rot = atan2((point - last).y, (point - last).x) + PI / 2.0
 				var pos = (point + last) / 2
 				var tfr = Transform2D.IDENTITY.rotated(rot).translated(pos)
@@ -192,9 +195,9 @@ func handle_drawing():
 				array.push_back(tfr * Vector2(-width / 2.0, height / 2.0))
 				array.push_back(tfr * Vector2(-width / 2.0, -height / 2.0))
 				seg.polygon = array
-				segments.back().add_child(seg)
+				draw_object.add_child(seg)
 
-				segment_colliders.push_back([seg, width, height, rot, pos])
+				segment_colliders.back().push_back([seg, width, height, rot, pos, Vector2(0,0)])
 
 			points.push_back(point)
 			cut_drawing = false 
@@ -212,12 +215,29 @@ func draw_button_pressed() -> void:
 	get_node("../HUD/Button").hide()
 	get_node("../HUD/Button2").show()
 
-	$DrawObject/horizontal/Sprite2D.texture = load("res://assets/horizontal scaler.png")
-	$DrawObject/vertical/Sprite2D.texture = load("res://assets/vertical scaler.png")
+	$DrawObject/horizontal/Sprite2D.texture = load("res://assets/controlRig/scalingBarSideways.png")
+	$DrawObject/vertical/Sprite2D.texture = load("res://assets/controlRig/scalingBarUpways.png")
 
+var first_time_release_btn_pressed = true
 
 func release_button_pressed() -> void:
 	released = !released
+	if !released:
+		draw_object.freeze = true
+		for group in segment_colliders:
+			for seg in group:
+				seg[5] = draw_object.position
+				draw_object.remove_child(seg[0])
+				add_child(seg[0])
+	else:
+		draw_object.freeze = false
+		for group in segment_colliders:
+			for seg in group:
+				seg[5] = Vector2.ZERO
+				remove_child(seg[0])
+				draw_object.add_child(seg[0])
+
+	first_time_release_btn_pressed = false
 
 @onready var last_pos = position
 func move_drawn_object():
@@ -228,6 +248,23 @@ func move_drawn_object():
 
 const SCALING_FACTOR = 100
 var draw_object_scale = Vector2(1,1)
+
+func update_collider_scaling():
+	for group in segment_colliders:
+		for seg in group:
+			var collider = seg[0]
+			var width = seg[1]
+			var height = seg[2]
+			var rot = seg[3]
+			var pos = seg[4]
+			var origin = seg[5]
+
+			var tfr = Transform2D.IDENTITY.rotated(rot).translated(pos).scaled(draw_object_scale).translated(origin)
+
+			collider.polygon[0] = tfr * Vector2(width / 2.0, -height / 2.0)
+			collider.polygon[1] = tfr * Vector2(width / 2.0, height / 2.0)
+			collider.polygon[2] = tfr * Vector2(-width / 2.0, height / 2.0)
+			collider.polygon[3] = tfr * Vector2(-width / 2.0, -height / 2.0)
 
 func handle_scaling():
 	if Input.is_action_pressed("draw"):
@@ -248,27 +285,13 @@ func handle_scaling():
 
 		draw_image_root.scale = draw_object_scale
 
-		for seg in segment_colliders:
-			var collider = seg[0]
-			var width = seg[1]
-			var height = seg[2]
-			var rot = seg[3]
-			var pos = seg[4]
-
-			var tfr = Transform2D.IDENTITY.rotated(rot).translated(pos).translated(collider.get_parent().position).scaled(draw_object_scale).translated(-collider.get_parent().position)
-			collider.polygon[0] = tfr * Vector2(width / 2.0, -height / 2.0)
-			collider.polygon[1] = tfr * Vector2(width / 2.0, height / 2.0)
-			collider.polygon[2] = tfr * Vector2(-width / 2.0, height / 2.0)
-			collider.polygon[3] = tfr * Vector2(-width / 2.0, -height / 2.0)
-
 func _physics_process(delta: float) -> void:
 	if done_drawing:
 		handle_movement(delta)
 		handle_scaling()
 	else:
 		_sprite.play("idle")
+
 	handle_drawing()
 	move_drawn_object()
-
-	if Input.is_key_pressed(KEY_T):
-		segments.back().scale.x -= delta * 0.1
+	update_collider_scaling()
