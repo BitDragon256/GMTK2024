@@ -195,9 +195,9 @@ func handle_drawing():
 				array.push_back(tfr * Vector2(-width / 2.0, height / 2.0))
 				array.push_back(tfr * Vector2(-width / 2.0, -height / 2.0))
 				seg.polygon = array
-				draw_object.add_child(seg)
+				add_child(seg)
 
-				segment_colliders.back().push_back([seg, width, height, rot, pos, Vector2(0,0)])
+				segment_colliders.back().push_back([seg, width, height, rot, pos, draw_object.position])
 
 			points.push_back(point)
 			cut_drawing = false 
@@ -222,15 +222,15 @@ var first_time_release_btn_pressed = true
 
 func release_button_pressed() -> void:
 	released = !released
-	if !released:
-		draw_object.freeze = true
+	if !released: # if the drawing is anchored on the player
+		# draw_object.freeze = true
 		for group in segment_colliders:
 			for seg in group:
 				seg[5] = draw_object.position
 				draw_object.remove_child(seg[0])
 				add_child(seg[0])
 	else:
-		draw_object.freeze = false
+		# draw_object.freeze = false
 		for group in segment_colliders:
 			for seg in group:
 				seg[5] = Vector2.ZERO
