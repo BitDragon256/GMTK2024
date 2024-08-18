@@ -120,8 +120,10 @@ var use_horizontal = false
 var use_vertical = false
 
 var released = false
+var start_animation = true
 
 func _ready() -> void:
+	_sprite.play("start")
 	last_mouse_pos = get_viewport().get_mouse_position()
 
 func handle_drawing():
@@ -286,11 +288,18 @@ func handle_scaling():
 		draw_image_root.scale = draw_object_scale
 
 func _physics_process(delta: float) -> void:
+	if start_animation && _sprite.is_playing():
+		return
+	start_animation = false
+
 	if done_drawing:
 		handle_movement(delta)
 		handle_scaling()
 	else:
 		_sprite.play("idle")
+		
+	if Input.is_action_just_pressed("release"):
+		release_button_pressed()
 
 	handle_drawing()
 	move_drawn_object()

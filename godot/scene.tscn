@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://bh122aots0e2n"]
+[gd_scene load_steps=59 format=3 uid="uid://bh122aots0e2n"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_a0qvs"]
 [ext_resource type="Texture2D" uid="uid://byprqtjat7c07" path="res://assets/backgrounds/renderedCheckered.png" id="1_lgxp6"]
@@ -31,8 +31,24 @@
 [ext_resource type="Texture2D" uid="uid://bgb407hmt5xtf" path="res://assets/jump_straight/frame0005.png" id="20_gmqmf"]
 [ext_resource type="Texture2D" uid="uid://d2f5pkafshtw1" path="res://assets/drawing border.png" id="21_n10wa"]
 [ext_resource type="Texture2D" uid="uid://djsxwugbbwmcb" path="res://assets/controlRig/controlRigCenter.png" id="28_c2ah7"]
+[ext_resource type="Texture2D" uid="uid://cxvb1p5b0okl7" path="res://assets/draw/frame0000.png" id="28_d2t2m"]
+[ext_resource type="Texture2D" uid="uid://cde2j34rnfa8s" path="res://assets/draw/frame0001.png" id="29_uu6j1"]
 [ext_resource type="Texture2D" uid="uid://cgfm35v8tej4g" path="res://assets/controlRig/arrowBarUpways.png" id="30_2bk8p"]
+[ext_resource type="Texture2D" uid="uid://bk6625hivdodn" path="res://assets/draw/frame0002.png" id="30_jbtc0"]
 [ext_resource type="Texture2D" uid="uid://cd5yx8f8x0dds" path="res://assets/controlRig/arrowBarSideways.png" id="31_johm3"]
+[ext_resource type="Texture2D" uid="uid://dlbnf8gs54ie5" path="res://assets/draw/frame0003.png" id="31_wsof1"]
+[ext_resource type="Texture2D" uid="uid://dd2tbk0amsjfw" path="res://assets/draw/frame0004.png" id="32_dput6"]
+[ext_resource type="Texture2D" uid="uid://bqinne0d5mmrn" path="res://assets/draw/frame0005.png" id="33_xvq1j"]
+[ext_resource type="Texture2D" uid="uid://do4n6sn6d8wkv" path="res://assets/draw/frame0006.png" id="34_v44v1"]
+[ext_resource type="Texture2D" uid="uid://3abv8n16cf2p" path="res://assets/draw/frame0007.png" id="35_5dunq"]
+[ext_resource type="Texture2D" uid="uid://b8qe4x1k71nhp" path="res://assets/draw/frame0008.png" id="36_iwwps"]
+[ext_resource type="Texture2D" uid="uid://cdndtrrxmcdx6" path="res://assets/draw/frame0009.png" id="37_cesre"]
+[ext_resource type="Texture2D" uid="uid://wacfyxuxbiki" path="res://assets/draw/frame0010.png" id="38_igmme"]
+[ext_resource type="Texture2D" uid="uid://whv8hh6ledv6" path="res://assets/draw/frame0011.png" id="39_1fvr0"]
+[ext_resource type="Texture2D" uid="uid://0lcjccu6nvmx" path="res://assets/draw/frame0012.png" id="40_fbv18"]
+[ext_resource type="Texture2D" uid="uid://hatxqp42m6p3" path="res://assets/draw/frame0013.png" id="41_fvn62"]
+[ext_resource type="Texture2D" uid="uid://cwptjvvlubox3" path="res://assets/draw/frame0014.png" id="42_852vl"]
+[ext_resource type="Texture2D" uid="uid://dabp8fi8ufpe1" path="res://assets/draw/frame0015.png" id="43_leccb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2eatl"]
 radius = 26.0
@@ -150,6 +166,59 @@ animations = [{
 "loop": true,
 "name": &"run",
 "speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("28_d2t2m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_uu6j1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_jbtc0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_wsof1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_dput6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_xvq1j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_v44v1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_5dunq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_iwwps")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_cesre")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_igmme")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_1fvr0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_fbv18")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_fvn62")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_852vl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_leccb")
+}],
+"loop": false,
+"name": &"start",
+"speed": 14.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0g6a2"]
@@ -193,7 +262,9 @@ shape = SubResource("CapsuleShape2D_2eatl")
 position = Vector2(18, 1.00001)
 scale = Vector2(0.176389, 0.176389)
 sprite_frames = SubResource("SpriteFrames_06ix1")
-animation = &"falling_side"
+animation = &"start"
+frame = 15
+frame_progress = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 offset = Vector2(0, -53.315)
