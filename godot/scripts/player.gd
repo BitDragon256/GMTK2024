@@ -48,8 +48,11 @@ func grounded() -> bool:
 	return is_on_floor()
 
 var jumped = false
+var erased = false
 
 func handle_movement(delta: float):
+	if erased:
+		return
 	if grounded():
 		coyote_timer.start()
 		pressed_jump_btn = false
@@ -281,7 +284,9 @@ func handle_scaling():
 		if use_vertical:
 			draw_object_scale.y += delta.y / SCALING_FACTOR
 
-		draw_image_root.scale = draw_object_scale
+		draw_image_root.scale = draw_object_scale		
+# func handleEndOfLevel():
+	
 
 func transformViewportToLocal(viewportPosition: Vector2):
 	return viewportPosition - position - draw_object.position
@@ -303,3 +308,24 @@ func _physics_process(delta: float) -> void:
 	handle_drawing()
 	move_drawn_object()
 	update_collider_scaling()
+
+func _on_reset_button_pressed():
+	var scene = load("res://scenes/level1.tscn").instantiate()
+	get_tree().root.add_child(scene)
+	get_node("../HUD/Button2").hide()
+	queue_free()
+
+func _on_end_of_level_area_entered(area):
+	print("finished")
+	if area != $bodyCollisionArea:
+		return
+	erased = true
+	$AnimatedSprite2D.play("erase")
+
+# reset everything
+func _on_animated_sprite_2d_animation_finished():
+	if !erased:
+		return
+	var levelmenu = load("res://scenes/levelmenu.tscn").instantiate()
+	get_tree().root.add_child(levelmenu)
+	queue_free()

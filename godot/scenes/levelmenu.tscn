@@ -1,0 +1,77 @@
+[gd_scene load_steps=8 format=3 uid="uid://c0r0mjhl78sbv"]
+
+[ext_resource type="Script" path="res://scripts/levelUI.gd" id="1_yb227"]
+[ext_resource type="Texture2D" uid="uid://comkwxs2pxp06" path="res://assets/backgrounds/renderedDottedpng.png" id="2_m6j8f"]
+[ext_resource type="Texture2D" uid="uid://6l5400gj1xfp" path="res://assets/levelscreen/frame0000.png" id="3_vk4dv"]
+[ext_resource type="Texture2D" uid="uid://cghycb2aaf4ho" path="res://assets/levelscreen/frame0001.png" id="4_1q6os"]
+[ext_resource type="Texture2D" uid="uid://c4kv6cj4notpd" path="res://assets/levelscreen/frame0002.png" id="5_bey2f"]
+[ext_resource type="Texture2D" uid="uid://5fks3o7sd1hy" path="res://assets/highlightedBackpng.png" id="6_takpb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_23bny"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_vk4dv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1q6os")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bey2f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Menu" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("1_yb227")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_m6j8f")
+expand_mode = 2
+stretch_mode = 6
+
+[node name="leveloverlay" type="AnimatedSprite2D" parent="CanvasLayer"]
+position = Vector2(833, 451)
+scale = Vector2(0.596875, 0.624074)
+sprite_frames = SubResource("SpriteFrames_23bny")
+
+[node name="level1" type="TextureButton" parent="CanvasLayer"]
+offset_left = 378.0
+offset_top = 180.0
+offset_right = 696.0
+offset_bottom = 394.0
+
+[node name="level2" type="TextureButton" parent="CanvasLayer"]
+offset_left = 586.0
+offset_top = 524.0
+offset_right = 909.0
+offset_bottom = 727.0
+
+[node name="level3" type="TextureButton" parent="CanvasLayer"]
+offset_left = 1007.0
+offset_top = 203.0
+offset_right = 1331.0
+offset_bottom = 423.0
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer"]
+offset_left = 301.0
+offset_top = 694.0
+offset_right = 393.0
+offset_bottom = 777.0
+texture_hover = ExtResource("6_takpb")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="pressed" from="CanvasLayer/level1" to="CanvasLayer" method="_on_level_1_pressed"]
+[connection signal="pressed" from="CanvasLayer/level2" to="CanvasLayer" method="_on_level_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/level3" to="CanvasLayer" method="_on_level_3_pressed"]
+[connection signal="pressed" from="CanvasLayer/TextureButton" to="CanvasLayer" method="_on_texture_button_pressed"]

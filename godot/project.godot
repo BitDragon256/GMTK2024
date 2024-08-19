@@ -11,9 +11,15 @@ config_version=5
 [application]
 
 config/name="New Game Project"
-run/main_scene="res://scene.tscn"
+run/main_scene="res://scenes/menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
+window/size/resizable=false
 
 [input]
 
