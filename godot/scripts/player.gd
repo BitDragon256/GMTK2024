@@ -38,7 +38,7 @@ func _init():
 func drawn_is_grounded() -> bool:
 	if get_slide_collision_count() > 0:
 		var last_collision = get_slide_collision(0)
-		if abs(last_collision.get_position().x - position.x) > $CollisionShape2D.shape.radius && last_collision.get_angle() < 0.5:
+		if (abs(last_collision.get_position().x - position.x) > $CollisionShape2D.shape.radius || abs(last_collision.get_position().y - position.y) > $CollisionShape2D.shape.height) && last_collision.get_angle() < 0.5:
 			return true
 	return false
 
