@@ -30,25 +30,25 @@
 [ext_resource type="Texture2D" uid="uid://dngbr0631h8jd" path="res://assets/jump_straight/frame0004.png" id="19_bhmvp"]
 [ext_resource type="Texture2D" uid="uid://bgb407hmt5xtf" path="res://assets/jump_straight/frame0005.png" id="20_gmqmf"]
 [ext_resource type="Texture2D" uid="uid://d2f5pkafshtw1" path="res://assets/drawing border.png" id="21_n10wa"]
-[ext_resource type="Texture2D" uid="uid://djsxwugbbwmcb" path="res://assets/controlRig/controlRigCenter.png" id="28_c2ah7"]
-[ext_resource type="Texture2D" uid="uid://cxvb1p5b0okl7" path="res://assets/draw/frame0000.png" id="28_d2t2m"]
-[ext_resource type="Texture2D" uid="uid://cde2j34rnfa8s" path="res://assets/draw/frame0001.png" id="29_uu6j1"]
-[ext_resource type="Texture2D" uid="uid://cgfm35v8tej4g" path="res://assets/controlRig/arrowBarUpways.png" id="30_2bk8p"]
-[ext_resource type="Texture2D" uid="uid://bk6625hivdodn" path="res://assets/draw/frame0002.png" id="30_jbtc0"]
-[ext_resource type="Texture2D" uid="uid://cd5yx8f8x0dds" path="res://assets/controlRig/arrowBarSideways.png" id="31_johm3"]
-[ext_resource type="Texture2D" uid="uid://dlbnf8gs54ie5" path="res://assets/draw/frame0003.png" id="31_wsof1"]
-[ext_resource type="Texture2D" uid="uid://dd2tbk0amsjfw" path="res://assets/draw/frame0004.png" id="32_dput6"]
-[ext_resource type="Texture2D" uid="uid://bqinne0d5mmrn" path="res://assets/draw/frame0005.png" id="33_xvq1j"]
-[ext_resource type="Texture2D" uid="uid://do4n6sn6d8wkv" path="res://assets/draw/frame0006.png" id="34_v44v1"]
-[ext_resource type="Texture2D" uid="uid://3abv8n16cf2p" path="res://assets/draw/frame0007.png" id="35_5dunq"]
-[ext_resource type="Texture2D" uid="uid://b8qe4x1k71nhp" path="res://assets/draw/frame0008.png" id="36_iwwps"]
-[ext_resource type="Texture2D" uid="uid://cdndtrrxmcdx6" path="res://assets/draw/frame0009.png" id="37_cesre"]
-[ext_resource type="Texture2D" uid="uid://wacfyxuxbiki" path="res://assets/draw/frame0010.png" id="38_igmme"]
-[ext_resource type="Texture2D" uid="uid://whv8hh6ledv6" path="res://assets/draw/frame0011.png" id="39_1fvr0"]
-[ext_resource type="Texture2D" uid="uid://0lcjccu6nvmx" path="res://assets/draw/frame0012.png" id="40_fbv18"]
-[ext_resource type="Texture2D" uid="uid://hatxqp42m6p3" path="res://assets/draw/frame0013.png" id="41_fvn62"]
-[ext_resource type="Texture2D" uid="uid://cwptjvvlubox3" path="res://assets/draw/frame0014.png" id="42_852vl"]
-[ext_resource type="Texture2D" uid="uid://dabp8fi8ufpe1" path="res://assets/draw/frame0015.png" id="43_leccb"]
+[ext_resource type="Texture2D" uid="uid://dk3pu0n6gwr2k" path="res://assets/controlRig/controlRigCenter.png" id="28_c2ah7"]
+[ext_resource type="Texture2D" uid="uid://cnbdmrumrs0jv" path="res://assets/draw/frame0000.png" id="28_d2t2m"]
+[ext_resource type="Texture2D" uid="uid://d0jw53bsemvyl" path="res://assets/draw/frame0001.png" id="29_uu6j1"]
+[ext_resource type="Texture2D" uid="uid://b6phivtoxtjn1" path="res://assets/controlRig/arrowBarUpways.png" id="30_2bk8p"]
+[ext_resource type="Texture2D" uid="uid://cmnd3ybkna7o5" path="res://assets/draw/frame0002.png" id="30_jbtc0"]
+[ext_resource type="Texture2D" uid="uid://3kji5314wa5y" path="res://assets/controlRig/arrowBarSideways.png" id="31_johm3"]
+[ext_resource type="Texture2D" uid="uid://dq1y4yewc61jv" path="res://assets/draw/frame0003.png" id="31_wsof1"]
+[ext_resource type="Texture2D" uid="uid://dkcudsodlejyp" path="res://assets/draw/frame0004.png" id="32_dput6"]
+[ext_resource type="Texture2D" uid="uid://c6lgm3ao20aha" path="res://assets/draw/frame0005.png" id="33_xvq1j"]
+[ext_resource type="Texture2D" uid="uid://c6dk2yx3tt6cr" path="res://assets/draw/frame0006.png" id="34_v44v1"]
+[ext_resource type="Texture2D" uid="uid://ba31qd7y2f6dt" path="res://assets/draw/frame0007.png" id="35_5dunq"]
+[ext_resource type="Texture2D" uid="uid://cm3fx0rplvxb5" path="res://assets/draw/frame0008.png" id="36_iwwps"]
+[ext_resource type="Texture2D" uid="uid://dcentwrgvcw7d" path="res://assets/draw/frame0009.png" id="37_cesre"]
+[ext_resource type="Texture2D" uid="uid://fvoo3lmffox7" path="res://assets/draw/frame0010.png" id="38_igmme"]
+[ext_resource type="Texture2D" uid="uid://bi0av46anxo5" path="res://assets/draw/frame0011.png" id="39_1fvr0"]
+[ext_resource type="Texture2D" uid="uid://cqfcwfj26mahf" path="res://assets/draw/frame0012.png" id="40_fbv18"]
+[ext_resource type="Texture2D" uid="uid://bliqwjwh37kv7" path="res://assets/draw/frame0013.png" id="41_fvn62"]
+[ext_resource type="Texture2D" uid="uid://dfhjhuha1lq8o" path="res://assets/draw/frame0014.png" id="42_852vl"]
+[ext_resource type="Texture2D" uid="uid://b5benisnh7l4g" path="res://assets/draw/frame0015.png" id="43_leccb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2eatl"]
 radius = 26.0
@@ -375,18 +375,6 @@ offset_right = 114.0
 offset_bottom = 52.0
 text = "Done"
 
-[node name="Area2D" type="Area2D" parent="HUD"]
-script = ExtResource("17_2ogaw")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HUD/Area2D"]
-position = Vector2(564.5, 285)
-shape = SubResource("RectangleShape2D_2odpa")
-
-[node name="Sprite2D" type="Sprite2D" parent="HUD/Area2D"]
-position = Vector2(564, 285)
-scale = Vector2(0.243871, 0.227621)
-texture = ExtResource("21_n10wa")
-
 [node name="Button2" type="Button" parent="HUD"]
 visible = false
 offset_left = 16.0
@@ -394,6 +382,18 @@ offset_top = 7.0
 offset_right = 196.0
 offset_bottom = 55.0
 text = "Release / Freeze"
+
+[node name="drawingSection" type="Area2D" parent="."]
+script = ExtResource("17_2ogaw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="drawingSection"]
+position = Vector2(564.5, 285)
+shape = SubResource("RectangleShape2D_2odpa")
+
+[node name="Sprite2D" type="Sprite2D" parent="drawingSection"]
+position = Vector2(564, 285)
+scale = Vector2(0.243871, 0.227621)
+texture = ExtResource("21_n10wa")
 
 [connection signal="pressed" from="HUD/Button" to="CharacterBody2D" method="draw_button_pressed"]
 [connection signal="button_down" from="HUD/Button2" to="CharacterBody2D" method="release_button_pressed"]

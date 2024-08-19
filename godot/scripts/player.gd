@@ -106,9 +106,8 @@ func handle_movement(delta: float):
 
 	move_and_slide()
 
-var points = []
 var done_drawing = false
-var cut_drawing = false
+var cut_drawing = true
 var image_segments = []
 @onready var draw_image_root = $DrawObject/ImageRoot
 @onready var draw_object = $DrawObject
@@ -122,12 +121,13 @@ var use_vertical = false
 var released = false
 var start_animation = true
 
+
 func _ready() -> void:
 	_sprite.play("start")
-	last_mouse_pos = get_viewport().get_mouse_position()
+	last_mouse_pos = get_global_mouse_position()
 
 func handle_drawing():
-	var mouse_pos = get_viewport().get_mouse_position()
+	var mouse_pos = get_global_mouse_position()
 	if Input.is_action_pressed("draw") && !done_drawing:
 		var delta = last_mouse_pos - mouse_pos
 		if $DrawObject/horizontal.call("mouse_is_over") && !use_vertical:
@@ -154,54 +154,52 @@ func handle_drawing():
 				seg.position.y += delta.y
 
 		var block_draw = false
-		if use_vertical || use_horizontal || !get_node("../HUD/Area2D").call("mouse_is_over"):
+		if use_vertical || use_horizontal || !get_node("../drawingSection").call("mouse_is_over"):
 			block_draw = true
 		
 		if !block_draw:
-			var point = get_viewport().get_mouse_position() - position + _camera.position + _camera.offset - draw_object.position
-
-			if points == [] || cut_drawing:
+			var point = transformViewportToLocal(get_global_mouse_position())
+			if cut_drawing:
 				segment_colliders.push_back([])
 				image_segments.push_back(Node2D.new())
 				draw_image_root.add_child(image_segments.back())
 
-			if points != [] && !cut_drawing:
+			else:
 				# add segments
-				var last = points.back()
-				var seg = Sprite2D.new()
-				seg.texture = load("res://assets//black square.png")
-				seg.position = (point + points.back()) / 2.0
-				seg.scale.x = max(((point - last).length() + DRAWING_WIDTH / 2.0), DRAWING_WIDTH) / 64.0
-				seg.scale.y = DRAWING_WIDTH / 64.0
-				seg.rotate(atan2((point - last).y, (point - last).x))
-				image_segments.back().add_child(seg)
+				var last = transformViewportToLocal(last_mouse_pos)
+				var pointSquareSprite = Sprite2D.new()
+				pointSquareSprite.texture = load("res://assets//black square.png")
+				pointSquareSprite.position = (point + last) / 2.0
+				pointSquareSprite.scale.x = max(((point - last).length() + DRAWING_WIDTH / 2.0), DRAWING_WIDTH) / 64.0
+				pointSquareSprite.scale.y = DRAWING_WIDTH / 64.0
+				pointSquareSprite.rotate(atan2((point - last).y, (point - last).x))
+				image_segments.back().add_child(pointSquareSprite)
 
 				# add connector pieces
-				var con = Sprite2D.new()
-				con.texture = load("res://assets/black circle.png")
-				con.scale.x = DRAWING_WIDTH / 64.0
-				con.scale.y = DRAWING_WIDTH / 64.0
-				con.position = point
-				image_segments.back().add_child(con)
+				var pointCircleSprite = Sprite2D.new()
+				pointCircleSprite.texture = load("res://assets/black circle.png")
+				pointCircleSprite.scale.x = DRAWING_WIDTH / 64.0
+				pointCircleSprite.scale.y = DRAWING_WIDTH / 64.0
+				pointCircleSprite.position = point
+				image_segments.back().add_child(pointCircleSprite)
 
 				# add collider
-				seg = CollisionPolygon2D.new()
+				var collider = CollisionPolygon2D.new()
 				var width = DRAWING_WIDTH
 				var height = (point - last).length() + DRAWING_WIDTH / 2.0
 				var rot = atan2((point - last).y, (point - last).x) + PI / 2.0
 				var pos = (point + last) / 2
-				var tfr = Transform2D.IDENTITY.rotated(rot).translated(pos)
-				var array = PackedVector2Array()
-				array.push_back(tfr * Vector2(width / 2.0, -height / 2.0))
-				array.push_back(tfr * Vector2(width / 2.0, height / 2.0))
-				array.push_back(tfr * Vector2(-width / 2.0, height / 2.0))
-				array.push_back(tfr * Vector2(-width / 2.0, -height / 2.0))
-				seg.polygon = array
-				add_child(seg)
+				var transformMat = Transform2D.IDENTITY.rotated(rot).translated(pos)
+				var colliderVertices = PackedVector2Array()
+				colliderVertices.push_back(transformMat * Vector2(width / 2.0, -height / 2.0))
+				colliderVertices.push_back(transformMat * Vector2(width / 2.0, height / 2.0))
+				colliderVertices.push_back(transformMat * Vector2(-width / 2.0, height / 2.0))
+				colliderVertices.push_back(transformMat * Vector2(-width / 2.0, -height / 2.0))
+				collider.polygon = colliderVertices
+				add_child(collider)
 
-				segment_colliders.back().push_back([seg, width, height, rot, pos, draw_object.position])
+				segment_colliders.back().push_back([collider, width, height, rot, pos, draw_object.position])
 
-			points.push_back(point)
 			cut_drawing = false 
 
 	if Input.is_action_just_released("draw"):
@@ -213,14 +211,13 @@ func handle_drawing():
 
 func draw_button_pressed() -> void:
 	done_drawing = true
-	get_node("../HUD/Area2D").hide()
+	get_node("../drawingSection").hide()
 	get_node("../HUD/Button").hide()
 	get_node("../HUD/Button2").show()
 
 	$DrawObject/horizontal/Sprite2D.texture = load("res://assets/controlRig/scalingBarSideways.png")
 	$DrawObject/vertical/Sprite2D.texture = load("res://assets/controlRig/scalingBarUpways.png")
 
-var first_time_release_btn_pressed = true
 
 func release_button_pressed() -> void:
 	released = !released
@@ -239,7 +236,6 @@ func release_button_pressed() -> void:
 				remove_child(seg[0])
 				draw_object.add_child(seg[0])
 
-	first_time_release_btn_pressed = false
 
 @onready var last_pos = position
 func move_drawn_object():
@@ -270,7 +266,7 @@ func update_collider_scaling():
 
 func handle_scaling():
 	if Input.is_action_pressed("draw"):
-		var mouse_pos = get_viewport().get_mouse_position()
+		var mouse_pos = get_global_mouse_position()
 		var delta = last_mouse_pos - mouse_pos
 		if $DrawObject/horizontal.call("mouse_is_over") && !use_vertical:
 			use_horizontal = true
@@ -286,6 +282,9 @@ func handle_scaling():
 			draw_object_scale.y += delta.y / SCALING_FACTOR
 
 		draw_image_root.scale = draw_object_scale
+
+func transformViewportToLocal(viewportPosition: Vector2):
+	return viewportPosition - position - draw_object.position
 
 func _physics_process(delta: float) -> void:
 	if start_animation && _sprite.is_playing():
