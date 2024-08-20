@@ -49,9 +49,10 @@ func grounded() -> bool:
 
 var jumped = false
 var erased = false
+var burned = false
 
 func handle_movement(delta: float):
-	if erased:
+	if erased or burned:
 		return
 	if grounded():
 		coyote_timer.start()
@@ -308,12 +309,29 @@ func _physics_process(delta: float) -> void:
 	handle_drawing()
 	move_drawn_object()
 	update_collider_scaling()
-
-func _on_reset_button_pressed():
+	
+func endOfLevel():
+	get_node("../drawingSection").hide()
+	get_node("../HUD/Button").hide()
+	get_node("../HUD/Button2").hide()
+	get_node("../HUD/Button3").hide()
+	queue_free()
+	
+func reset():
 	var scene = load("res://scenes/level1.tscn").instantiate()
 	get_tree().root.add_child(scene)
 	get_node("../HUD/Button2").hide()
 	queue_free()
+
+func _on_reset_button_pressed():
+	reset()
+
+func _on_laser_area_entered(area):
+	if area != $bodyCollisionArea:
+		return
+	burned = true
+	$AnimatedSprite2D.play("erase")
+	
 
 func _on_end_of_level_area_entered(area):
 	print("finished")
@@ -324,8 +342,10 @@ func _on_end_of_level_area_entered(area):
 
 # reset everything
 func _on_animated_sprite_2d_animation_finished():
-	if !erased:
-		return
-	var levelmenu = load("res://scenes/levelmenu.tscn").instantiate()
-	get_tree().root.add_child(levelmenu)
-	queue_free()
+	if erased:
+		var levelmenu = load("res://scenes/levelmenu.tscn").instantiate()
+		get_tree().root.add_child(levelmenu)
+		endOfLevel()
+	if burned:
+		reset() 
+	
